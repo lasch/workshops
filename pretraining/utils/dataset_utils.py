@@ -91,7 +91,7 @@ def get_data_loader(cfg, rank, world_size):
     data = fmdata.Preload_Buffer_Dataset(data, 10000)
     data = fmdata.Preprocess_Dataset(data, causal_lm)
 
-    return iter(torch.utils.data.DataLoader(data, num_workers=0, batch_size=cfg.batch_size))
+    return torch.utils.data.DataLoader(data, num_workers=0, batch_size=cfg.batch_size)
 
 
 def parse_data_args(datas, weights):

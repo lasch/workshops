@@ -32,8 +32,9 @@ def train(
 
     start = time.time()
     loop_start = time.time()
-    for batch_idx in range(start_step+1,cfg.num_steps+1):
-        input, label = next(train_loader)
+    for batch_idx, (input, label) in enumerate(train_loader, start=1):
+        if batch_idx == cfg.num_steps:
+            break
         input = input.to(local_rank)
         label = label.to(local_rank)
 
