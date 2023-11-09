@@ -17,7 +17,8 @@ def get_dummy_loader(cfg, rank, world_size):
     
         def __iter__(self):
             while True:
-                yield torch.IntTensor([x%self.v for x in range(self.i, self.i + self.l)])
+                out = torch.IntTensor([x%self.v for x in range(self.i, self.i + self.l)])
+                yield out, out
                 self.i += self.l
 
     data = SteadyCounter(cfg.seq_length, 10000) # 10k vsize since vsize isn't actually in the cfg
