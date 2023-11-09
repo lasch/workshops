@@ -20,7 +20,7 @@ from torch.optim.lr_scheduler import LambdaLR
 import config
 import policies
 from pretraining.utils.config_utils import update_config
-from pretraining.utils.dataset_utils import get_data_loader
+from pretraining.utils.dataset_utils import get_data_loader, get_dummy_loader
 from pretraining.utils.train_utils import setup, setup_environ_flags, get_policies, train, get_profiler
 
 
@@ -78,7 +78,7 @@ def main(**kwargs):
     # get data loader
     if rank == 0:
         print("Constructing datasets...")
-    train_loader = get_data_loader(cfg, rank, world_size)
+    train_loader = get_dummy_loader(cfg, rank, world_size)
     if rank == 0:
         print("Datasets constructed!")
 
@@ -121,8 +121,8 @@ def main(**kwargs):
         sync_module_states=cfg.low_cpu_fsdp,
         param_init_fn=lambda module: module.to_empty(device=torch.device("cuda"), recurse=False)
         if cfg.low_cpu_fsdp and rank != 0 else None,
-        # device_mesh=init_device_mesh("cuda", (world_size // cfg.sharding_group_size, cfg.sharding_group_size))
-        # if cfg.sharding_strategy == "hsdp" else None,
+        device_mesh=init_device_mesh("cuda", (world_size // cfg.sharding_group_size, cfg.sharding_group_size))
+        if cfg.sharding_strategy == "hsdp" else None,
     )
 
     # fsdp activation checkpointing

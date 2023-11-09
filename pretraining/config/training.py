@@ -9,8 +9,9 @@ class train_config:
     seed: int = 2023
 
     # model
-    ckpt_load_path: str = "/lustre/t5/workshops/pretraining/ckpt"
     tokenizer: str = "/lustre/llama_weights/tokenizer.model"
+    ckpt_load_path: str = "/lustre/t5/workshops/pretraining/ckpt"
+    ckpt_save_path: str = "/lustre/t5/workshops/pretraining/ckpt"
 
     # data and dataloader
     data_path: str = "/lustre/bluepile-processing/rel0_5/tokens_llama2/lang=en/"
@@ -19,9 +20,6 @@ class train_config:
     datasets = "commoncrawl,webhose,github_clean,wikipedia/lang=de,wikipedia/lang=es,wikipedia/lang=fr,wikipedia/lang=ja,wikipedia/lang=pt,wikimedia,uspto,pubmedcentral,arxiv,stackexchange,PG19"
     weights = "7700,500,550,28,17,22,25,8,100,500,175,250,100,25"
     logical_shards: int = 768
-
-    # save models
-    ckpt_save_path: str = "/lustre/t5/workshops/pretraining/ckpt"
 
     # compile
     use_torch_compile: bool = False
