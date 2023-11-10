@@ -32,7 +32,7 @@ class train_config:
 
     # fsdp policies
     mixed_precision: bool = True
-    fsdp_activation_checkpointing: bool = True
+    fsdp_activation_checkpointing: bool = False
     selective_checkpointing: int = 1
     sharding_strategy: str = "hsdp"
     sharding_group_size: int = 8
@@ -45,4 +45,4 @@ class train_config:
 
     # reporting
     report_interval: int = 200
-    checkpoint_interval: int = 10000
+    checkpoint_interval: int = 20000
