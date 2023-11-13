@@ -98,6 +98,6 @@ def get_data_loader(cfg, rank, world_size):
 def parse_data_args(datas, weights):
     def splitstrip(x):
         return [item.strip() for item in x.split(",")]
-    datas = ["dataset="+x for x in splitstrip(datas)]
+    datas = splitstrip(datas)
     weights = [float(x) for x in splitstrip(weights)]
     return datas, weights
