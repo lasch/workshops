@@ -14,13 +14,14 @@ class train_config:
     ckpt_save_path: str = "/lustre/t5/workshops/pretraining/ckpt"
 
     # data and dataloader
+    use_dummy_dataset: bool = False
     data_path: str = "/lustre/bluepile-processing/rel0_5/tokens_llama2/"
     seq_length: int = 4096
     sep_token: int = 0
-    # datasets = "commoncrawl,webhose,github_clean,wikipedia/lang=de,wikipedia/lang=es,wikipedia/lang=fr,wikipedia/lang=ja,wikipedia/lang=pt,wikimedia,uspto,pubmedcentral,arxiv,stackexchange,PG19"
-    # weights = "7700,500,550,28,17,22,25,8,100,500,175,250,100,25"
-    datasets = "lang=en/commoncrawl,lang=en/webhose,lang=en/github_clean,lang=de/wikipedia,lang=es/wikipedia,lang=fr/wikipedia,lang=ja/wikipedia/,lang=pt/wikipedia/,lang=en/wikimedia,lang=en/uspto,lang=en/pubmedcentral,lang=en/arxiv,lang=en/stackexchange,lang=en/PG19"
-    weights = "7700,500,550,28,17,22,25,8,100,500,175,250,100,25"
+    # datasets: str = "commoncrawl,webhose,github_clean,wikipedia/lang=de,wikipedia/lang=es,wikipedia/lang=fr,wikipedia/lang=ja,wikipedia/lang=pt,wikimedia,uspto,pubmedcentral,arxiv,stackexchange,PG19"
+    # weights: str = "7700,500,550,28,17,22,25,8,100,500,175,250,100,25"
+    datasets: str = "lang=en/commoncrawl,lang=en/webhose,lang=en/github_clean,lang=de/wikipedia,lang=es/wikipedia,lang=fr/wikipedia,lang=ja/wikipedia/,lang=pt/wikipedia/,lang=en/wikimedia,lang=en/uspto,lang=en/pubmedcentral,lang=en/arxiv,lang=en/stackexchange,lang=en/PG19"
+    weights: str = "7700,500,550,28,17,22,25,8,100,500,175,250,100,25"
     logical_shards: int = 768
 
     # compile
