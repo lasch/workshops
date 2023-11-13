@@ -15,7 +15,7 @@ class train_config:
 
     # data and dataloader
     use_dummy_dataset: bool = False
-    data_path: str = "/lustre/bluepile-processing/rel0_5/tokens_llama2/"
+    data_path: str = "/lustre/bluepile-processing/rel0_7/tokens/llama2/high_quality_rerun_fuzzy_deduped"
     seq_length: int = 4096
     sep_token: int = 0
     # datasets: str = "commoncrawl,webhose,github_clean,wikipedia/lang=de,wikipedia/lang=es,wikipedia/lang=fr,wikipedia/lang=ja,wikipedia/lang=pt,wikimedia,uspto,pubmedcentral,arxiv,stackexchange,PG19"
