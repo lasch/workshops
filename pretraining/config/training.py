@@ -20,7 +20,7 @@ class train_config:
     sep_token: int = 0
     # datasets: str = "commoncrawl,webhose,github_clean,wikipedia/lang=de,wikipedia/lang=es,wikipedia/lang=fr,wikipedia/lang=ja,wikipedia/lang=pt,wikimedia,uspto,pubmedcentral,arxiv,stackexchange,PG19"
     # weights: str = "7700,500,550,28,17,22,25,8,100,500,175,250,100,25"
-    datasets: str = "lang=en/commoncrawl,lang=en/webhose,lang=en/github_clean,lang=de/wikipedia,lang=es/wikipedia,lang=fr/wikipedia,lang=ja/wikipedia/,lang=pt/wikipedia/,lang=en/wikimedia,lang=en/uspto,lang=en/pubmedcentral,lang=en/arxiv,lang=en/stackexchange,lang=en/PG19"
+    datasets: str = "lang=en/dataset=commoncrawl,lang=en/dataset=webhose,lang=en/dataset=github_clean,lang=de/dataset=wikipedia,lang=es/dataset=wikipedia,lang=fr/dataset=wikipedia,lang=ja/dataset=wikipedia,lang=pt/dataset=wikipedia,lang=en/dataset=wikimedia,lang=en/dataset=uspto,lang=en/dataset=pubmedcentral,lang=en/dataset=arxiv,lang=en/dataset=stackexchange,lang=en/dataset=PG19"
     weights: str = "7700,500,550,28,17,22,25,8,100,500,175,250,100,25"
     logical_shards: int = 768
 
