@@ -62,7 +62,7 @@ def train(
             if rank == 0:
                 print("step:", batch_idx)
                 print("tokens seen:", n_tok + elapsed_tokens)
-                print("loss:", train_accuracy)
+                print("loss:", train_accuracy.item())
                 print(f"speed for these {cfg.report_interval} steps:", (time.time() - start) / cfg.report_interval)
                 print("overall speed:", elapsed_time / (batch_idx - start_step))
                 print("reserved memory:", torch.cuda.max_memory_reserved(device=torch.cuda.current_device()))
