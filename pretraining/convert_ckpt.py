@@ -62,13 +62,8 @@ def main(**kwargs):
         activation_fn="silu",
         max_expected_seq_len=2048,
     )
-    if cfg.low_cpu_fsdp:
-        if rank == 0:
-            model = LLaMA(llama_config, orig_init=True)
-        else:
-            with torch.device("meta"):
-                model = LLaMA(llama_config, orig_init=True)
-    else:
+
+    with torch.device("meta"):
         model = LLaMA(llama_config, orig_init=True)
 
     if rank == 0:
@@ -111,9 +106,8 @@ def main(**kwargs):
         use_orig_params=cfg.use_torch_compile,
         device_id=torch.cuda.current_device(),
         limit_all_gathers=True,
-        sync_module_states=cfg.low_cpu_fsdp,
-        param_init_fn=lambda module: module.to_empty(device=torch.device("cuda"), recurse=False)
-        if cfg.low_cpu_fsdp and rank != 0 else None,
+        sync_module_states=False,
+        param_init_fn=lambda module: module.to_empty(device=torch.device("cuda"), recurse=False),
         device_mesh=init_device_mesh("cuda", (world_size // cfg.sharding_group_size, cfg.sharding_group_size))
         if cfg.sharding_strategy == "hsdp" else None,
     )
