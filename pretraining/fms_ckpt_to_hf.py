@@ -7,7 +7,7 @@ from torch.distributed._shard.checkpoint import (
 )
 
 load_path = "/lustre/t5/workshops/pretraining/ckpt/checkpoints/step_100000_ckp"
-save_path = "/lustre/t5/workshops/pretraining/ckpt/hf/step_100000_ckp.pth"
+save_path = "/lustre/t5/workshops/pretraining/ckpt/hf/step_100000_ckp"
 
 llama_config = LLaMAConfig(
     src_vocab_size=32000,
@@ -21,8 +21,7 @@ llama_config = LLaMAConfig(
     max_expected_seq_len=2048,
 )
 
-with torch.device("meta"):
-    model = LLaMA(llama_config, orig_init=True)
+model = LLaMA(llama_config, orig_init=True)
 
 state_dict = {"model_state": model.state_dict()}
 load_state_dict(
@@ -32,4 +31,4 @@ model.load_state_dict(state_dict["model_state"])
 
 hf_model = to_hf_api(model)
 
-torch.save(hf_model.state_dict(), save_path)
+hf_model.save_pretrained(save_path)
