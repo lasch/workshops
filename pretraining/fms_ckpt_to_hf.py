@@ -1,4 +1,3 @@
-import torch
 from fms.models.hf import to_hf_api
 from fms.models.llama import LLaMAConfig, LLaMA
 from torch.distributed._shard.checkpoint import (
@@ -6,8 +5,8 @@ from torch.distributed._shard.checkpoint import (
     load_state_dict,
 )
 
-load_path = "/lustre/t5/workshops/pretraining/ckpt/checkpoints/step_100000_ckp"
-save_path = "/lustre/t5/workshops/pretraining/ckpt/hf/step_100000_ckp"
+load_path = "/lustre/t5/workshops/pretraining/ckpt/checkpoints/step_200000_ckp"
+save_path = "/lustre/t5/workshops/pretraining/ckpt/hf/step_200000_ckp"
 
 llama_config = LLaMAConfig(
     src_vocab_size=32000,
@@ -32,3 +31,7 @@ model.load_state_dict(state_dict["model_state"])
 hf_model = to_hf_api(model)
 
 hf_model.save_pretrained(save_path)
+
+from transformers import AutoTokenizer
+tokenizer = AutoTokenizer.from_pretrained("/lustre/llama_weights/hf/7B")
+tokenizer.save_pretrained(save_path)
