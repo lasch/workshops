@@ -88,14 +88,16 @@ def main(**kwargs):
     # TP
     if cfg.tp_size > 1:
         assert enable_2d_with_fsdp()
-        twod_mesh = init_device_mesh("cuda", (world_size // cfg.tp_size, cfg.tp_size))
+        device_mesh = init_device_mesh("cuda", (world_size // cfg.tp_size, cfg.tp_size), mesh_dim_names=("dp", "tp"))
+        tp_mesh = device_mesh["tp"]
+        dp_mesh = device_mesh["dp"]
         blocks = model.get_submodule("layers")
         for i, block in enumerate(blocks):
             if rank == 0:
                 print("parallelization of block:", i)
             block = parallelize_module(
                 module=block,
-                device_mesh=twod_mesh,
+                device_mesh=tp_mesh,
                 parallelize_plan={
                     "attn.query": ColwiseParallel(),
                     "attn.key": ColwiseParallel(),
@@ -104,17 +106,14 @@ def main(**kwargs):
                     "ff_sub_layer.w1": ColwiseParallel(),
                     "ff_sub_layer.wg": ColwiseParallel(),
                     "ff_sub_layer.w2": RowwiseParallel(),
-                },
-                tp_mesh_dim=1,
+                }
             )
-        fsdp_pg = twod_mesh.get_dim_groups()[0]
     else:
-        fsdp_pg = None
+        dp_mesh = None
 
     # FSDP
     model = FSDP(
         model,
-        process_group=fsdp_pg,
         auto_wrap_policy=wrapping_policy,
         mixed_precision=mixed_precision_policy,
         sharding_strategy=sharding_strategy_policy,
@@ -124,8 +123,7 @@ def main(**kwargs):
         sync_module_states=cfg.low_cpu_fsdp,
         param_init_fn=lambda module: module.to_empty(device=torch.device("cuda"), recurse=False)
         if cfg.low_cpu_fsdp and rank != 0 else None,
-        device_mesh=init_device_mesh("cuda", (world_size // cfg.sharding_group_size, cfg.sharding_group_size))
-        if cfg.sharding_strategy == "hsdp" else None,
+        device_mesh=dp_mesh,
     )
 
     # fsdp activation checkpointing
