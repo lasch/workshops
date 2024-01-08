@@ -147,7 +147,7 @@ def main(**kwargs):
         model,
         optimizer,
         train_loader,
-        path=cfg.ckpt_load_path
+        path=os.path.join(cfg.ckpt_load_path, "checkpoints/")
     )
 
     # LR schedule
