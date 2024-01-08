@@ -14,7 +14,6 @@ from torch.distributed.tensor.parallel import (
     ColwiseParallel,
     RowwiseParallel,
 )
-from torch.distributed.tensor.parallel.fsdp import enable_2d_with_fsdp
 from torch.optim.lr_scheduler import LambdaLR
 
 import config
@@ -87,7 +86,6 @@ def main(**kwargs):
 
     # TP
     if cfg.tp_size > 1:
-        assert enable_2d_with_fsdp()
         device_mesh = init_device_mesh("cuda", (world_size // cfg.tp_size, cfg.tp_size), mesh_dim_names=("dp", "tp"))
         tp_mesh = device_mesh["tp"]
         dp_mesh = device_mesh["dp"]
