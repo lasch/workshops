@@ -1,12 +1,12 @@
-from fms.models.hf import to_hf_api
+from fms.models.hf.llama import convert_to_hf
 from fms.models.llama import LLaMAConfig, LLaMA
 from torch.distributed._shard.checkpoint import (
     FileSystemReader,
     load_state_dict,
 )
 
-load_path = "/lustre/t5/workshops/pretraining/ckpt/checkpoints/step_200000_ckp"
-save_path = "/lustre/t5/workshops/pretraining/ckpt/hf/step_200000_ckp"
+load_path = "/lustre/t5/workshops/pretraining/ckpt/checkpoints/step_1400000_ckp"
+save_path = "/lustre/t5/workshops/pretraining/ckpt/hf/step_1400000_ckp"
 
 llama_config = LLaMAConfig(
     src_vocab_size=32000,
@@ -28,7 +28,7 @@ load_state_dict(
 )
 model.load_state_dict(state_dict["model_state"])
 
-hf_model = to_hf_api(model)
+hf_model = convert_to_hf(model)
 
 hf_model.save_pretrained(save_path)
 
