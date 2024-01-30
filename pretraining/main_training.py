@@ -50,17 +50,31 @@ def main(**kwargs):
     mixed_precision_policy, wrapping_policy, sharding_strategy_policy = get_policies(cfg, rank)
 
     # get fms model
-    llama_config = LLaMAConfig(
-        src_vocab_size=32000,
-        emb_dim=4096,
-        norm_eps=1e-05,
-        nheads=32,
-        nlayers=32,
-        hidden_grow_factor=11008/4096,
-        multiple_of=1,
-        activation_fn="silu",
-        max_expected_seq_len=2048,
-    )
+    if cfg.model_variant == "70b":
+        llama_config = LLaMAConfig(
+            src_vocab_size=32000,
+            emb_dim=8192,
+            norm_eps=1e-05,
+            nheads=64,
+            nlayers=80,
+            hidden_grow_factor=28672/8192,
+            multiple_of=1,
+            activation_fn="silu",
+            max_expected_seq_len=2048,
+        )
+    else:
+        llama_config = LLaMAConfig(
+            src_vocab_size=32000,
+            emb_dim=4096,
+            norm_eps=1e-05,
+            nheads=32,
+            nlayers=32,
+            hidden_grow_factor=11008 / 4096,
+            multiple_of=1,
+            activation_fn="silu",
+            max_expected_seq_len=2048,
+        )
+
     if cfg.low_cpu_fsdp:
         if rank == 0:
             model = LLaMA(llama_config, orig_init=True)

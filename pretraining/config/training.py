@@ -9,6 +9,7 @@ class train_config:
     seed: int = 2023
 
     # model
+    model_variant: str = "7b"
     tokenizer: str = "/lustre/llama_weights/tokenizer.model"
     ckpt_load_path: str = "/lustre/t5/workshops/pretraining/ckpt"
     ckpt_save_path: str = "/lustre/t5/workshops/pretraining/ckpt"
