@@ -76,11 +76,8 @@ def main(**kwargs):
         )
 
     if cfg.low_cpu_fsdp:
-        if rank == 0:
+        with torch.device("meta"):
             model = LLaMA(llama_config, orig_init=True)
-        else:
-            with torch.device("meta"):
-                model = LLaMA(llama_config, orig_init=True)
     else:
         model = LLaMA(llama_config, orig_init=True)
 
@@ -145,7 +142,9 @@ def main(**kwargs):
         policies.apply_fsdp_checkpointing(model, cfg.selective_checkpointing)
 
     if cfg.use_torch_compile:
-        print("compile not supported yet for llama ")
+        if rank == 0:
+            print(f"--> enabling torch compile...")
+        model = torch.compile(model)
 
     # Optimizer
     optimizer = optim.AdamW(model.parameters(), lr=cfg.learning_rate, betas=(.9,.95), weight_decay=0.1)

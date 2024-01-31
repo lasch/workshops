@@ -26,7 +26,7 @@ class train_config:
     logical_shards: int = 768
 
     # compile
-    use_torch_compile: bool = False
+    use_torch_compile: bool = True
 
     # profiler
     use_profiler: bool = False
