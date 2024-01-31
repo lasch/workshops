@@ -62,6 +62,18 @@ def main(**kwargs):
             activation_fn="silu",
             max_expected_seq_len=2048,
         )
+    elif cfg.model_variant == "34b":
+        llama_config = LLaMAConfig(
+            src_vocab_size=32000,
+            emb_dim=8192,
+            norm_eps=1e-05,
+            nheads=64,
+            nlayers=48,
+            hidden_grow_factor=22016 / 8192,
+            multiple_of=1,
+            activation_fn="silu",
+            max_expected_seq_len=2048,
+        )
     else:
         llama_config = LLaMAConfig(
             src_vocab_size=32000,
