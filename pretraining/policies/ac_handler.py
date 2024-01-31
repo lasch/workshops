@@ -15,6 +15,12 @@ non_reentrant_wrapper = partial(
 
 def apply_fsdp_checkpointing(model, every_xth_item):
 
+    # for full ac, we do it separately as compile does not yet with selective checkpointing,
+    # but technically this part is redundant.
+    if every_xth_item == 1:
+        apply_activation_checkpointing(model, checkpoint_wrapper_fn=non_reentrant_wrapper,
+                                       check_fn=lambda submodule: isinstance(submodule, LLaMABlock))
+
     def selective_checkpointing(submodule):
         selective_checkpointing.__dict__.setdefault("_count", 0)
 
