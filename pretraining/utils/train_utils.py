@@ -65,6 +65,7 @@ def train(
                 print("loss:", train_accuracy.item())
                 print(f"speed for these {cfg.report_interval} steps:", (time.time() - start) / cfg.report_interval)
                 print("overall speed:", elapsed_time / (batch_idx - start_step))
+                print("LR:", scheduler.get_last_lr())
                 print("reserved memory:", torch.cuda.max_memory_reserved(device=torch.cuda.current_device()))
                 print("active memory:", torch.cuda.max_memory_allocated(device=torch.cuda.current_device()))
                 print("overall token per gpu per sec:", int(elapsed_tokens / world_size / elapsed_time))
