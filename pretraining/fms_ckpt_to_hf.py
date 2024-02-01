@@ -5,8 +5,8 @@ from torch.distributed._shard.checkpoint import (
     load_state_dict,
 )
 
-load_path = "/lustre/t5/workshops/pretraining/ckpt/checkpoints/step_1400000_ckp"
-save_path = "/lustre/t5/workshops/pretraining/ckpt/hf/step_1400000_ckp"
+load_path = "/lustre/t5/workshops/pretraining/new_ckpt/checkpoints/step_1720000_ckp"
+save_path = "/lustre/t5/workshops/pretraining/ckpt/hf/step_1720000_ckp"
 
 llama_config = LLaMAConfig(
     src_vocab_size=32000,
