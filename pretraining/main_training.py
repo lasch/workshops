@@ -173,23 +173,23 @@ def main(**kwargs):
 
     # LR schedule
     warmup_interval = min(2000, cfg.num_steps//20)
-    def schedule(x):
-        if x < 1700000:
-            return min(
-        1 - (1 - min(x, warmup_interval) / warmup_interval) ** 2,  # parabolic anneal
-        0.1 + 0.5 * (1 - 0.1) * (1 + math.cos(min(x, cfg.num_steps) / cfg.num_steps * math.pi)),
-    )
-        else:
-            x = x - 170000
-            return min(
-                1 - (1 - min(x, warmup_interval) / warmup_interval) ** 2,  # parabolic anneal
-                0.1 + 0.5 * (1 - 0.1) * (1 + math.cos(min(x, 300000) / 300000 * math.pi)),
-            )
-
-    # schedule = lambda x: min(
+    # def schedule(x):
+    #     if x < 1700000:
+    #         return min(
     #     1 - (1 - min(x, warmup_interval) / warmup_interval) ** 2,  # parabolic anneal
     #     0.1 + 0.5 * (1 - 0.1) * (1 + math.cos(min(x, cfg.num_steps) / cfg.num_steps * math.pi)),
     # )
+    #     else:
+    #         x = x - 170000
+    #         return min(
+    #             1 - (1 - min(x, warmup_interval) / warmup_interval) ** 2,  # parabolic anneal
+    #             0.1 + 0.5 * (1 - 0.1) * (1 + math.cos(min(x, 300000) / 300000 * math.pi)),
+    #         )
+
+    schedule = lambda x: min(
+        1 - (1 - min(x, warmup_interval) / warmup_interval) ** 2,  # parabolic anneal
+        0.1 + 0.5 * (1 - 0.1) * (1 + math.cos(min(x, cfg.num_steps) / cfg.num_steps * math.pi)),
+    )
     scheduler = LambdaLR(optimizer, lambda x: schedule(x + start_step))
 
     # profiler

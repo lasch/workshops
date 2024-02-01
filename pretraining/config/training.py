@@ -45,7 +45,7 @@ class train_config:
     # training spec
     batch_size: int = 2
     num_steps: int = 2000000
-    learning_rate: float = 1e-4
+    learning_rate: float = 3e-4
 
     # reporting
     report_interval: int = 200
