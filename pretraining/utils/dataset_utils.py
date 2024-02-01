@@ -86,7 +86,7 @@ def get_data_loader(cfg, rank, world_size):
     data = fmdata.Buffer_Dataset(
         data,
         [cfg.seq_length + 1],
-        bos_token=cfg.sep_token,
+        drop_final_token=cfg.sep_token,
         pack_hard=True,
     )
     data = fmdata.Preload_Buffer_Dataset(data, 10000)
