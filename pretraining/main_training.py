@@ -131,7 +131,8 @@ def main(**kwargs):
         policies.apply_fsdp_checkpointing(model, cfg.selective_checkpointing)
 
     if cfg.use_torch_compile:
-        print("compile not supported yet for llama ")
+        print("attempting to compile... ")
+        model = torch.compile(model)
 
     # Optimizer
     optimizer = optim.AdamW(model.parameters(), lr=cfg.learning_rate, betas=(.9,.95), weight_decay=0.1)
